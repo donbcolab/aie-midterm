@@ -21,7 +21,7 @@ Think through your response step by step.
 @cl.on_chat_start  # marks a function that will be executed at the start of a user session
 async def start_chat():
     settings = {
-        "model": "gpt-3.5-turbo-0125",
+        "model": "gpt-4o",
         "temperature": 0,
         "max_tokens": 500,
         "top_p": 1,
