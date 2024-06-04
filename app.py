@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # ChatOpenAI Templates
-system_template = """You are a helpful assistant who always speaks in a pleasant tone!
+system_template = """You are a helpful assistant who always speaks in a pleasant tone!  Use your web and other tools to ensure that findings and recommendations are up to date as of June 2024.
 """
 
 user_template = """{input}
