@@ -1,8 +1,8 @@
 ---
-title: Llm App
-emoji: 🐨
-colorFrom: blue
-colorTo: indigo
+title: BeyondChatGPT Demo
+emoji: 📉
+colorFrom: pink
+colorTo: yellow
 sdk: docker
 pinned: false
 license: openrail
