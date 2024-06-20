@@ -15,23 +15,23 @@ from starters import set_starters
 
 load_dotenv()
 
-GROQ_API_KEY = os.environ["GROQ_API_KEY"]
-OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
-
-QDRANT_API_KEY = os.environ["QDRANT_API_KEY"]
-QDRANT_API_URL = os.environ["QDRANT_API_URL"]
-
-LANGCHAIN_PROJECT = "AirBnB PDF Jun18"
+LANGCHAIN_PROJECT = os.environ["LANGCHAIN_PROJECT"]
 LANGCHAIN_ENDPOINT = os.environ["LANGCHAIN_ENDPOINT"]
 LANGCHAIN_API_KEY = os.environ["LANGCHAIN_API_KEY"]
 LANGCHAIN_TRACING_V2 = os.environ["LANGCHAIN_TRACING_V2"]
+LANGCHAIN_HUB_PROMPT = os.environ["LANGCHAIN_HUB_PROMPT"]
 
-LLAMA3_PROMPT = hub.pull("rlm/rag-prompt-llama3")
-# LLAMA3_PROMPT = hub.pull("cracked-nut/securities-comm-llama3-v2")
-
-embedding = OpenAIEmbeddings(model="text-embedding-3-small")
-collection = "airbnb_pdf_rec_1000_200_images"
+GROQ_API_KEY = os.environ["GROQ_API_KEY"]
 llm = ChatGroq(model="llama3-70b-8192", temperature=0.3)
+prompt = hub.pull(LANGCHAIN_HUB_PROMPT)
+
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+embedding = OpenAIEmbeddings(model="text-embedding-3-small")
+
+QDRANT_API_KEY = os.environ["QDRANT_API_KEY"]
+QDRANT_API_URL = os.environ["QDRANT_API_URL"]
+QDRANT_COLLECTION = os.environ["QDRANT_COLLECTION"]
+collection = QDRANT_COLLECTION
 
 qdrant = Qdrant.from_existing_collection(
     embedding=embedding,
@@ -41,14 +41,17 @@ qdrant = Qdrant.from_existing_collection(
     prefer_grpc=True,   
 )
 
-retriever = qdrant.as_retriever(search_kwargs={"k": 5})
+retriever = qdrant.as_retriever(
+    search_type="similarity_score_threshold",
+    search_kwargs={"score_threshold": 0.5, "k": 5}
+)
 
 @cl.on_chat_start
 async def start_chat():
     rag_chain = (
         {"context": itemgetter("question") | retriever, "question": itemgetter("question")}
         | RunnablePassthrough.assign(context=itemgetter("context"))
-        | {"response": LLAMA3_PROMPT | llm, "context": itemgetter("context")}
+        | {"response": prompt | llm, "context": itemgetter("context")}
     )
 
     cl.user_session.set("rag_chain", rag_chain)

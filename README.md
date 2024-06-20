@@ -1,8 +1,8 @@
 ---
-title: BeyondChatGPT Demo
-emoji: 📉
-colorFrom: pink
-colorTo: yellow
+title: AirBNB -- RAG Evaluation
+emoji: 👜💵📈
+colorFrom: white
+colorTo: green
 sdk: docker
 pinned: false
 license: openrail
