@@ -11,6 +11,8 @@ from langchain.schema.output_parser import StrOutputParser
 from langchain.schema.runnable import RunnablePassthrough
 from langchain.schema.runnable.config import RunnableConfig
 
+import starters
+
 load_dotenv()
 
 GROQ_API_KEY = os.environ["GROQ_API_KEY"]

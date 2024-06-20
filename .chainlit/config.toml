@@ -14,6 +14,9 @@ cache = false
 # Follow symlink for asset mount (see https://github.com/Chainlit/chainlit/issues/317)
 # follow_symlink = false
 
+# Path to the starters file
+starters_file = "starters.py"
+
 [features]
 # Show the prompt playground
 prompt_playground = true
@@ -79,6 +82,8 @@ hide_cot = false
         #dark = "#980039"
         #light = "#FFE7EB"
 
+# Set the default theme to dark
+default_theme = "dark"
 
 [meta]
 generated_by = "0.7.700"
