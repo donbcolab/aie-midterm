@@ -1,79 +1,69 @@
-# You can find this code for Chainlit python streaming here (https://docs.chainlit.io/concepts/streaming/python)
-
-# OpenAI Chat completion
 import os
-from openai import AsyncOpenAI  # importing openai for API usage
-import chainlit as cl  # importing chainlit for our app
-from chainlit.prompt import Prompt, PromptMessage  # importing prompt tools
-from chainlit.playground.providers import ChatOpenAI  # importing ChatOpenAI tools
+import chainlit as cl
 from dotenv import load_dotenv
+from operator import itemgetter
+from langchain import hub
+from langchain_groq import ChatGroq
+from langchain_openai import OpenAIEmbeddings
+from langchain_qdrant import Qdrant
+from langchain_core.prompts import PromptTemplate
+from langchain.schema.output_parser import StrOutputParser
+from langchain.schema.runnable import RunnablePassthrough
+from langchain.schema.runnable.config import RunnableConfig
 
 load_dotenv()
 
-# ChatOpenAI Templates
-system_template = """You are a helpful assistant who always speaks in a pleasant tone!  Use your web and other tools to ensure that findings and recommendations are up to date as of June 2024.
-"""
+GROQ_API_KEY = os.environ["GROQ_API_KEY"]
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
-user_template = """{input}
-Think through your response step by step.
-"""
+QDRANT_API_KEY = os.environ["QDRANT_API_KEY"]
+QDRANT_API_URL = os.environ["QDRANT_URL"]
 
-@cl.on_chat_start  # marks a function that will be executed at the start of a user session
+LANGCHAIN_PROJECT = "AirBnB PDF Jun18"
+LANGCHAIN_ENDPOINT = os.environ["LANGCHAIN_ENDPOINT"]
+LANGCHAIN_API_KEY = os.environ["LANGCHAIN_API_KEY"]
+LANGCHAIN_TRACING_V2 = os.environ["LANGCHAIN_TRACING_V2"]
+
+LLAMA3_PROMPT = hub.pull("rlm/rag-prompt-llama3")
+# LLAMA3_PROMPT = hub.pull("cracked-nut/securities-comm-llama3-v2")
+
+embedding = OpenAIEmbeddings(model="text-embedding-3-small")
+collection = "airbnb_pdf_rec_1000_200_images"
+llm = ChatGroq(model="llama3-70b-8192", temperature=0.3)
+
+qdrant = Qdrant.from_existing_collection(
+    embedding=embedding,
+    collection_name=collection,
+    url=QDRANT_API_URL,
+    api_key=QDRANT_API_KEY,
+    prefer_grpc=True,   
+)
+
+retriever = qdrant.as_retriever(search_kwargs={"k": 5})
+
+@cl.on_chat_start
 async def start_chat():
-    settings = {
-        "model": "gpt-4o",
-        "temperature": 0,
-        "max_tokens": 500,
-        "top_p": 1,
-        "frequency_penalty": 0,
-        "presence_penalty": 0,
-    }
-
-    cl.user_session.set("settings", settings)
-
-
-@cl.on_message  # marks a function that should be run each time the chatbot receives a message from a user
-async def main(message: cl.Message):
-    settings = cl.user_session.get("settings")
-
-    client = AsyncOpenAI()
-
-    print(message.content)
-
-    prompt = Prompt(
-        provider=ChatOpenAI.id,
-        messages=[
-            PromptMessage(
-                role="system",
-                template=system_template,
-                formatted=system_template,
-            ),
-            PromptMessage(
-                role="user",
-                template=user_template,
-                formatted=user_template.format(input=message.content),
-            ),
-        ],
-        inputs={"input": message.content},
-        settings=settings,
+    rag_chain = (
+        {"context": itemgetter("question") | retriever, "question": itemgetter("question")}
+        | RunnablePassthrough.assign(context=itemgetter("context"))
+        | {"response": LLAMA3_PROMPT | llm, "context": itemgetter("context")}
     )
 
-    print([m.to_openai() for m in prompt.messages])
+    cl.user_session.set("rag_chain", rag_chain)
+
+@cl.on_message
+async def main(message: cl.Message):
+    rag_chain = cl.user_session.get("rag_chain")
 
     msg = cl.Message(content="")
 
-    # Call OpenAI
-    async for stream_resp in await client.chat.completions.create(
-        messages=[m.to_openai() for m in prompt.messages], stream=True, **settings
-    ):
-        token = stream_resp.choices[0].delta.content
-        if not token:
-            token = ""
-        await msg.stream_token(token)
+    response = await rag_chain.ainvoke(
+        {"question": message.content},
+        config=RunnableConfig(callbacks=[cl.LangchainCallbackHandler()]),
+    )
 
-    # Update the prompt object with the completion
-    prompt.completion = msg.content
-    msg.prompt = prompt
+    context = response["context"]
+    response_content = response["response"].content
 
-    # Send and close the message stream
+    await msg.stream_token(response_content)
     await msg.send()
