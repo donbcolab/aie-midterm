@@ -4,15 +4,15 @@ import chainlit as cl
 async def set_starters():
     return [
         cl.Starter(
-            label="Description of Business",
+            label="👜 Description of AirBnBs Business",
             message="What is Airbnb's 'Description of Business'?",
             ),
         cl.Starter(
-            label="Cash and cash equivalents",
+            label="💵 Cash and Cash Equivalents",
             message="What was the total value of 'Cash and cash equivalents' as of December 31, 2023?",
             ),
         cl.Starter(
-            label="Max shares 4Sale by Chesky",
+            label="📈 Max Shares for Sale by Chesky",
             message="What is the 'maximum number of shares to be sold under the 10b5-1 Trading plan' by Brian Chesky?",
             ),
         ]

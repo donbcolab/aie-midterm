@@ -15,7 +15,7 @@ cache = false
 # follow_symlink = false
 
 # Path to the starters file
-starters_file = "starters.py"
+# starters_file = "starters.py"
 
 [features]
 # Show the prompt playground
