@@ -13,11 +13,11 @@
 
 - Additional details on the Data Pipeline are in this [Jupyter Notebook](./airbnb_langchain_rag_loader_retriever.ipynb)
 
-!["RAG Data Pipeline"](./airbnb-langchain-rag-loader.png)
+!["RAG Data Pipeline"](./public/airbnb-langchain-rag-loader.png)
 
 ## RAG Inference
 
-!["RAG Inference"](./airbnb-langchain-rag-inference.png)
+!["RAG Inference"](./public/airbnb-langchain-rag-inference.png)
 
 ### Sample Questions
 
