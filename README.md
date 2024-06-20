@@ -1,8 +1,8 @@
 ---
 title: AirBNB -- RAG Evaluation
 emoji: 👜💵📈
-colorFrom: white
-colorTo: green
+colorFrom: green
+colorTo: gray
 sdk: docker
 pinned: false
 license: openrail
