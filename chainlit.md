@@ -24,14 +24,14 @@
 #### Question 1
 - Question: What is Airbnb's 'Description of Business'?
 - Response: Airbnb's 'Description of Business' is operating a global platform for unique stays and experiences, connecting hosts and guests online or through mobile devices to book spaces and experiences around the world.
-- LangSmith trace: https://smith.langchain.com/public/ebdf5473-64ac-4f85-81ab-bd3c3d624969/r
+- LangSmith trace: https://smith.langchain.com/public/97ddd0f2-9316-40d2-90b2-813519c501d5/r
 
 #### Question 2
 - Question: What was the total value of 'Cash and cash equivalents' as of December 31, 2023?
 - Response: The total value of 'Cash and cash equivalents' as of December 31, 2023, is $2,369.
-- LangSmith trace: https://smith.langchain.com/public/b0f93487-c729-4ccf-93f9-0354078282d8/r
+- LangSmith trace: https://smith.langchain.com/public/35425a02-84d7-4bb8-b715-64f96270ac57/r
 
 #### Question 3
 - Question: What is the 'maximum number of shares to be sold under the 10b5-1 Trading plan' by Brian Chesky?
 - Response: The maximum number of shares to be sold under the 10b5-1 Trading plan by Brian Chesky is 1,146,000.
-- LangSmith trace: https://smith.langchain.com/public/7fc4b549-2ea5-4b86-abf9-71d5e9a62738/r
+- LangSmith trace: https://smith.langchain.com/public/7854d66c-1317-488c-a0a0-4e492491143f/r
