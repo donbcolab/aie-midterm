@@ -23,7 +23,7 @@
 
 #### Question 1
 - Question: What is Airbnb's 'Description of Business'?
-- Response: Airbnb's 'Description of Business' is operating a global platform for unique stays and experiences, connecting hosts and guests online or through mobile devices to book spaces and experiences around the world.
+- Response: Airbnb's 'Description of Business' is operating a global platform for unique stays and experiences, connecting hosts and guests (collectively referred to as "customers") online or through mobile devices to book spaces and experiences around the world.
 - LangSmith trace: https://smith.langchain.com/public/97ddd0f2-9316-40d2-90b2-813519c501d5/r
 
 #### Question 2
@@ -33,5 +33,5 @@
 
 #### Question 3
 - Question: What is the 'maximum number of shares to be sold under the 10b5-1 Trading plan' by Brian Chesky?
-- Response: The maximum number of shares to be sold under the 10b5-1 Trading plan by Brian Chesky is 1,146,000.
+- Response: The maximum number of shares to be sold under the 10b5-1 Trading Plan by Brian Chesky is 1,146,000.
 - LangSmith trace: https://smith.langchain.com/public/7854d66c-1317-488c-a0a0-4e492491143f/r
