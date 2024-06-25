@@ -4,7 +4,7 @@
 - Data:  [AirBnB Securities Commision pdf](./public/airbnb.pdf) - Form 10-Q filing for Q1 of 2024
 - LLM:  Llama3-70B running on Groq
 - Embedding model:  OpenAI text-embedding-3-small
-- Infrastructure / Framework:  LangChaing
+- Infrastructure / Framework:  LangChain
 - Vector Store: Qdrant
 - UI:  Chainlit
 - Deployment: Docker on HuggingFace Spaces
