@@ -16,4 +16,3 @@ async def set_starters():
             message="What is the 'maximum number of shares to be sold under the 10b5-1 Trading plan' by Brian Chesky?",
             ),
         ]
-# ...
