@@ -15,6 +15,7 @@ from starters import set_starters
 
 load_dotenv()
 
+# used for LangSmith Tracing and Evaluation
 LANGCHAIN_PROJECT = os.environ["LANGCHAIN_PROJECT"]
 LANGCHAIN_ENDPOINT = os.environ["LANGCHAIN_ENDPOINT"]
 LANGCHAIN_API_KEY = os.environ["LANGCHAIN_API_KEY"]
